@@ -76,3 +76,8 @@ app.put('/posts/:id', (req, res) => {
     .then(blog => res.status(204).end())
     .catch(err => res.status(500).json({message: 'Internal server error'}));
 });
+
+app.delete('/posts/:id', (req, res){
+  Blog.findByIdAndRemove(req.params.id).then(blog => res.status(204).end())
+    .catch(err => res.status(500).json({message: 'Internal server error'}));
+});
