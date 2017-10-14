@@ -31,3 +31,26 @@ app.get('/posts/:id', (req, res) => {
       res.status(500).json({message: 'Internal server error'});
     });
 });
+
+app.post('/posts', (req, res) => {
+  const requireFields = ['title', 'author', 'content'];
+
+  for (let i=0; i < requireFields.length; i++){
+      const field = requireFields[i];
+      if(!(field in req.body)) {
+        const message = `Missing ${field} in request body`;
+        console.error(message);
+        return res.status(400).send(message);
+      }
+  }
+
+  Blog.create({
+    title: req.body.title,
+    author: req.body.author,
+    content: req.body.content})
+    .then(blog => res.status(201).json(blog.apiRepr()))
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({message; 'Internal server error'});
+    });
+});
