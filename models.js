@@ -6,11 +6,12 @@ const blogSchema = mongoose.Schema({
      firstName: String,
      lastName: String
    },
-   content: {type: String}
+   content: {type: String},
+   created: {type: Date, default: Date.now}
 });
 
 blogSchema.virtual('authorString').get(function() {
-  return `${this}.author.firstName ${this}.author.lastName`;
+  return `${this}.author.firstName ${this}.author.lastName`.trim();
 });
 
 blogSchema.methods.apiRepr = function() {
@@ -18,10 +19,11 @@ blogSchema.methods.apiRepr = function() {
     id: this._id,
     title: this.title,
     author: this.authorString,
-    content: this.content
+    content: this.content,
+    created: this.created
   };
 };
 
-const Blog = mongoose.model('Blogs', blogSchema);
+const BlogPost = mongoose.model('BlogPost', blogSchema);
 
-module.exports = {Blogs};
+module.exports = {BlogPost};
