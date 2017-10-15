@@ -13,9 +13,14 @@ app.use(bodyParser.json());
 
 mongoose.promise = global.Promise;
 
-app.get('/posts'), (req, res) => {
-  Blog.find().then(posts => {
-    res.json(blogs.map(blog => blog.apiRepr()))
+app.get('/posts', (req, res) => {
+  // console.log(Blog.findOne());
+  Blog.find().then(blogs => {
+    console.log(blogs);
+    res.json({
+        blogs: blogs.map(
+          (blog) => blog.apiRepr())
+      });
     })
     .catch(
       err => {
