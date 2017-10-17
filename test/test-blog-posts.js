@@ -55,7 +55,7 @@ describe('Blogs API resource', function() {
   });
 
   describe('GET endpoint', function() {
-    it('should return all existing blogs' function() {
+    it('should return all existing blogs', function() {
       let res;
       return chai.request(app)
         .get('/posts').then(function(_res) {
