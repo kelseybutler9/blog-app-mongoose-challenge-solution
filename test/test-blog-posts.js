@@ -67,6 +67,30 @@ describe('Blogs API resource', function() {
           res.body.blogs.should.have.length.of(count);
         });
     });
+
+    it('should return blogs with right fields', function() {
+      let resBlog;
+      return chai.request(app).get('/posts').then(function(res) {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body.blogs.should.be.a('array');
+          res.body.blogs.should.have.length.of.at.least(1);
+          res.body.blogs.forEach(function(blog) {
+            blog.should.be.a('object');
+            blog.should.include.keys(
+              'id', 'title', 'author', 'content');
+          });
+          resBlog = res.body.blogs[0];
+          return Blog.findById(resBlog.id);
+        }).then(function(blog) {
+          resBlog.id.should.equal(blog.id);
+          resBlog.title.should.equal(blog.title);
+          resBlog.author.should.equal(blog.author);
+          resBlog.content.should.equal(blog.content);
+        });
+    });
   });
+
+  
 
 })
